@@ -10,7 +10,7 @@ import os
 # Example: ALLOWED_ORIGINS="https://app.example.com,https://staging.example.com"
 ALLOWED_ORIGINS: list[str] = [
     o.strip()
-    for o in os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+    for o in os.getenv("ALLOWED_ORIGINS", "*").split(",")
     if o.strip()
 ]
 
