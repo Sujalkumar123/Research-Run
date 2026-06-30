@@ -5,7 +5,7 @@
  * URLs or interpret raw Response objects directly.
  */
 
-const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+const BASE = "https://research-run-3.onrender.com";
 
 /**
  * Parse a non-OK response into a human-readable error string.
