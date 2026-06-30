@@ -1,0 +1,15 @@
+# Render Blueprint Spec (https://render.com/docs/blueprints)
+services:
+  - type: web
+    name: research-runs-backend
+    env: python
+    rootDir: PROD/Final_Code/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: LOG_LEVEL
+        value: INFO
+      - key: ALLOWED_ORIGINS
+        value: "*" # Change this to your frontend URL in Render dashboard for better security
