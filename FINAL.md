@@ -1,4 +1,4 @@
-# Research Runs Dashboard — Submission
+# Final Code — Research Runs Dashboard
 
 Github Repo: https://github.com/Sujalkumar123/Research-Run
 Backend (Render): https://research-run-3.onrender.com
@@ -6,36 +6,10 @@ Frontend (Vercel): https://research-run-liart.vercel.app
 
 ---
 
-## What this project is
+The original code was two files. I ended up with ten. That's roughly how much I changed.
 
-The Research Runs Dashboard is a full-stack web application where a user submits a research prompt along with source URLs. The backend takes those URLs, scrapes the content, and calls an LLM to generate a structured research brief with KPIs. The frontend polls the backend until the run finishes and then displays the result.
+The backend started as a single `main.py` with everything crammed in — config, data models, HTTP routes, and business logic all living together. I pulled each of those into its own file. `config.py` handles environment variables, `models.py` has the Pydantic schemas with proper validation, `api/routes.py` is purely the HTTP layer, and `services/run_service.py` is where the actual run processing happens. `main.py` just creates the app and plugs everything in. While doing the split, I fixed the underlying bugs — UUIDs instead of sequential run IDs, the blocking scraper calls moved to a thread pool, proper exception handling so failed runs don't hang forever, and 404s for unknown run IDs.
 
-I was given the initial AI-generated code and tasked with auditing it, fixing everything that would break in production, and deploying it end to end.
+The frontend went through the same process. `App.jsx` became a thin wrapper. The fetch logic moved to `client/runs.js`, the polling to `hooks/useRunPoller.js` with proper cleanup and a retry mechanism, and the UI into `RunForm.jsx` and `RunResult.jsx`. The XSS vulnerability from injecting LLM output as HTML is gone — it renders as plain text now. The API URL is an environment variable, not localhost hardcoded into the source.
 
-## How the code is organised
-
-```
-PROD/Final_Code/
-  backend/
-    main.py                     app entry point
-    config.py                   environment settings
-    models.py                   Pydantic request/response schemas
-    api/routes.py               HTTP endpoints
-    services/run_service.py     core execution logic and run store
-
-  frontend/
-    src/
-      App.jsx                   root component
-      client/runs.js            API fetch layer
-      hooks/useRunPoller.js     polling logic with retry
-      components/RunForm.jsx    form and input validation
-      components/RunResult.jsx  result display
-```
-
-## Files in this submission
-
-**FINAL.md** — this file. Quick overview and links.
-
-**DECISION_LOG.md** — a log of every meaningful AI interaction during the build. Shows what I asked, what the AI returned, and the reasoning behind whether I accepted, rejected, or modified the output.
-
-**SIGNOFF.md** — the production sign-off. Covers what was found, what was fixed, how the system was tested, and what known limitations remain out of scope.
+What I didn't change is the actual behaviour of the app — the research flow, the scraping, the LLM call, the response shape. All of that is identical to what I was given. I only changed how it runs.
