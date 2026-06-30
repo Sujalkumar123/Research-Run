@@ -1,37 +1,41 @@
 # Research Runs Dashboard — Submission
 
-**Github Repo:** https://github.com/Sujalkumar123/Research-Run
-
-**Backend (Render):** https://research-run-3.onrender.com
-
-**Frontend (Vercel):** https://research-run-liart.vercel.app
+Github Repo: https://github.com/Sujalkumar123/Research-Run
+Backend (Render): https://research-run-3.onrender.com
+Frontend (Vercel): https://research-run-liart.vercel.app
 
 ---
 
-## What's in the repo
+## What this project is
 
-The project is a full-stack Research Runs Dashboard. A user submits a research prompt and source URLs, the backend scrapes the pages and calls an LLM, and the frontend polls until the run completes and displays the result.
+The Research Runs Dashboard is a full-stack web application where a user submits a research prompt along with source URLs. The backend takes those URLs, scrapes the content, and calls an LLM to generate a structured research brief with KPIs. The frontend polls the backend until the run finishes and then displays the result.
 
-The repository is organized as follows:
+I was given the initial AI-generated code and tasked with auditing it, fixing everything that would break in production, and deploying it end to end.
+
+## How the code is organised
 
 ```
 PROD/Final_Code/
   backend/
-    main.py               entry point
-    config.py             env settings
-    models.py             Pydantic schemas
-    api/routes.py         HTTP endpoints
-    services/run_service.py   core business logic
+    main.py                     app entry point
+    config.py                   environment settings
+    models.py                   Pydantic request/response schemas
+    api/routes.py               HTTP endpoints
+    services/run_service.py     core execution logic and run store
+
   frontend/
     src/
-      App.jsx                     root component
-      client/runs.js              API fetch layer
-      hooks/useRunPoller.js       polling + retry logic
-      components/RunForm.jsx      form and validation
-      components/RunResult.jsx    result display
+      App.jsx                   root component
+      client/runs.js            API fetch layer
+      hooks/useRunPoller.js     polling logic with retry
+      components/RunForm.jsx    form and input validation
+      components/RunResult.jsx  result display
 ```
 
-## Files included in this submission
+## Files in this submission
 
-- **DECISION_LOG.md** — a step-by-step log of every meaningful AI interaction, what was asked, what it returned, and whether I accepted or modified the output.
-- **SIGNOFF.md** — a short production sign-off covering the audit findings, test results, and known non-blocking infrastructure gaps.
+**FINAL.md** — this file. Quick overview and links.
+
+**DECISION_LOG.md** — a log of every meaningful AI interaction during the build. Shows what I asked, what the AI returned, and the reasoning behind whether I accepted, rejected, or modified the output.
+
+**SIGNOFF.md** — the production sign-off. Covers what was found, what was fixed, how the system was tested, and what known limitations remain out of scope.
